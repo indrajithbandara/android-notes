@@ -1,0 +1,32 @@
+#!/bin/sh
+
+function ls_targets () {
+  targets=( $(find $1 -type d -name $2) );
+  TEMPFILE=/tmp/$$.tmp; echo 0 > $TEMPFILE; # Store counter in tmp file
+  COUNTER=0
+  for i in "${targets[@]}"
+  do
+    echo [$COUNTER]: $i; COUNTER=$[$(cat $TEMPFILE) + 1]; echo $COUNTER > $TEMPFILE # STORE
+  done
+
+  echo "Select: "; read i; LECTURE_DIR=${targets=[$i]};
+}
+
+function transfer_lectures () {
+  DIR_BASE=$(basename $1); echo $DIR_BASE
+
+  for f in $1/*
+  do
+		FILENAME="${DIR_BASE}_$(basename $f)";
+		DEST=/home/ryan/efs/android/lectures/$DIR_BASE_$FILENAME;
+		echo "SOURCE:" $f ", DEST: " $DEST
+		if [ -e $DEST ]; then
+        echo '[EXISTS]'
+    else
+        pv $f > $DEST
+    fi
+  done
+}
+
+ls_targets /home/ryan/efs/lap/vids/lectures $1
+transfer_lectures $LECTURE_DIR $DEST

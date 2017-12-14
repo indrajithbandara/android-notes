@@ -1,0 +1,2 @@
+#!/bin/sh
+sudo sshfs ryan@192.168.1.81:/storage/emulated/0 /Volumes/android -p 2222
