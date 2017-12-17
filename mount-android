@@ -1,2 +1,5 @@
 #!/bin/sh
-sudo sshfs ryan@192.168.1.81:/storage/emulated/0 /Volumes/android -p 2222
+ADDRESS_SUFFIX=$1
+echo "Address postfix set to: " $ADDRESS_SUFFIX
+sudo sshfs ryan@192.168.1.$ADDRESS_SUFFIX:/storage/emulated/0 /Volumes/android -p 2222
+echo "Attempt to mount android device... [DONE]"
